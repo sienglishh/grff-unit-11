@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flashcards Từ Vựng Tiếng Anh - Our Summer Holidays</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #a1c4fd 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #2b5876;
+      margin-bottom: 20px;
+      font-size: 2rem;
+      text-align: center;
+      text-shadow: 0 2px 4px rgba(255,255,255,0.6);
+    }
+
+    .card {
+      width: 340px;
+      height: 420px;
+      background: #ffffff;
+      border-radius: 25px;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+      border: 5px solid #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 30px 20px;
+    }
+
+    .icon {
+      font-size: 5rem;
+      margin-top: 10px;
+    }
+
+    .text-container {
+      text-align: center;
+    }
+
+    .word {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #ff6b6b;
+      margin-bottom: 8px;
+    }
+
+    .meaning {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #2b5876;
+    }
+
+    .btn-audio {
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+      transition: transform 0.1s, background 0.2s;
+    }
+
+    .btn-audio:hover {
+      background: #ff5252;
+      transform: scale(1.05);
+    }
+
+    .controls {
+      margin-top: 30px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .btn-nav {
+      background: #2b5876;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 15px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(43, 88, 118, 0.3);
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-nav:hover {
+      background: #4e4376;
+      transform: scale(1.05);
+    }
+
+    .progress {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #2b5876;
+      background: rgba(255,255,255,0.9);
+      padding: 8px 16px;
+      border-radius: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>☀️ Our Summer Holidays 🏖️</h1>
+
+  <div class="card">
+    <div class="icon" id="icon">🐪</div>
+    
+    <div class="text-container">
+      <div class="word" id="word">camel</div>
+      <div class="meaning" id="meaning">con lạc đà</div>
+    </div>
+
+    <button class="btn-audio" onclick="speakCurrentWord()">🔊 Nghe đọc</button>
+  </div>
+
+  <div class="controls">
+    <button class="btn-nav" onclick="prevCard()">◄ Trước</button>
+    <div class="progress" id="progress">1 / 23</div>
+    <button class="btn-nav" onclick="nextCard()">Sau ►</button>
+  </div>
+
+  <script>
+    const vocabulary = [
+      { word: "camel", meaning: "con lạc đà", icon: "🐪" },
+      { word: "desert", meaning: "sa mạc", icon: "🏜️" },
+      { word: "environment", meaning: "môi trường", icon: "🌱" },
+      { word: "ever", meaning: "đã từng / bao giờ", icon: "✨" },
+      { word: "foggy", meaning: "có sương mù", icon: "🌫️" },
+      { word: "gloves", meaning: "găng tay", icon: "🧤" },
+      { word: "lift", meaning: "thang máy / nâng lên", icon: "🛗" },
+      { word: "London", meaning: "Thành phố Luân Đôn", icon: "🎡" },
+      { word: "meet", meaning: "gặp gỡ", icon: "🤝" },
+      { word: "octopus", meaning: "con bạch tuộc", icon: "🐙" },
+      { word: "pop music", meaning: "nhạc pop", icon: "🎵" },
+      { word: "raining", meaning: "trời đang mưa", icon: "🌧️" },
+      { word: "rock music", meaning: "nhạc rock", icon: "🎸" },
+      { word: "should", meaning: "nên", icon: "💡" },
+      { word: "snowing", meaning: "trời đang rơi tuyết", icon: "🌨️" },
+      { word: "spotted", meaning: "có chấm đốm", icon: "🐆" },
+      { word: "storm", meaning: "cơn bão", icon: "🌩️" },
+      { word: "striped", meaning: "có kẻ sọc", icon: "🦓" },
+      { word: "suitcase", meaning: "valy du lịch", icon: "🧳" },
+      { word: "sunglasses", meaning: "kính mát", icon: "🕶️" },
+      { word: "sunny", meaning: "trời nắng", icon: "☀️" },
+      { word: "toe", meaning: "ngón chân", icon: "🦶" },
+      { word: "trainers", meaning: "giày thể thao", icon: "👟" }
+    ];
+
+    let currentIndex = 0;
+    const wordElement = document.getElementById('word');
+    const meaningElement = document.getElementById('meaning');
+    const iconElement = document.getElementById('icon');
+    const progressElement = document.getElementById('progress');
+
+    function updateCard() {
+      const item = vocabulary[currentIndex];
+      wordElement.textContent = item.word;
+      meaningElement.textContent = item.meaning;
+      iconElement.textContent = item.icon;
+      progressElement.textContent = `${currentIndex + 1} / ${vocabulary.length}`;
+    }
+
+    function prevCard() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateCard();
+      }
+    }
+
+    function nextCard() {
+      if (currentIndex < vocabulary.length - 1) {
+        currentIndex++;
+        updateCard();
+      }
+    }
+
+    function speakCurrentWord() {
+      const textToSpeak = vocabulary[currentIndex].word.replace(/\(.*?\)/g, '').trim();
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.85;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    updateCard();
+  </script>
+</body>
+</html>
